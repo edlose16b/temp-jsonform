@@ -1,0 +1,31 @@
+name: jsonschema
+description: A new Flutter project.
+
+publish_to: 'none'
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  intl: ^0.17.0
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  
+  flutter_lints: ^1.0.0
+  extended_masked_text: ^2.3.1
+  file_picker: ^4.1.5 # https://github.com/miguelpruivo/flutter_file_picker/wiki/Setup#android
+
+flutter:
+
+  uses-material-design: true

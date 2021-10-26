@@ -5,4 +5,4 @@ export 'object_schema.dart';
 export 'property_schema.dart';
 
 const String kGenesisIdKey = 'genesis-key';
-const String kNoIdKey = 'no-id';
+const String kNoIdKey = '';

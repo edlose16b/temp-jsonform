@@ -1,6 +1,8 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:jsonschema/json_form/json_form_widget.dart';
-import 'package:jsonschema/json_form/models/models.dart';
+import 'package:jsonschema/json_form/json_form.dart';
 
 void main() {
   runApp(const MyApp());
@@ -66,11 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
         "title": "Fecha de constitución",
         "default": "04/09/1998"
       },
-      "dni": {
-        "type": "string",
-        "title": "ID",
-        "default": "Tax Tesla"
-      },
+      "dni": {"type": "string", "title": "ID", "default": "Tax Tesla"},
       "company_address": {
         "type": "object",
         "title": "Domicilio social",
@@ -137,6 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
       "society_type": {
         "type": "string",
         "title": "Tipo de sociedad",
+        "default": "random text",
         "oneOf": [
           {
             "type": "string",
@@ -224,7 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
             JsonForm(
               jsonSchema: json,
               onFormDataChanged: (data) {
-                print('data es $data');
+                inspect(data);
               },
             )
           ],

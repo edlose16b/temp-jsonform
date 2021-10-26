@@ -25,7 +25,7 @@ class SchemaArray extends Schema {
     if (json['items'] is Object) {
       property.items = Schema.fromJson(
         json['items'],
-        // id: property.id,
+        // id: 'oemano',
         parent: property,
       );
     } else {

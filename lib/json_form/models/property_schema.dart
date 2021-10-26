@@ -51,9 +51,9 @@ class SchemaProperty extends Schema {
 
   PropertyFormat format;
   List<dynamic>? enumm; // it means enum
+  dynamic defaultValue;
 
   // propiedades que se llenan con el json
-  dynamic defaultValue;
   bool required;
   bool? autoFocus;
   int? minLength, maxLength;

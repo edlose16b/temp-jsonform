@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:jsonschema/json_form/models/models.dart';
+// Esto transforma el JSON a Modelos
 
 enum SchemaType {
   string,
@@ -60,11 +61,28 @@ class Schema {
   String get idKey {
     if (parent != null && !parent!.id.contains(kGenesisIdKey)) {
       if (parent!.id == kNoIdKey) {
-        return parent!.parent!.idKey + '.' + id;
+        var parentParent = parent?.parent;
+        bool parentParentIsArray = parentParent?.type == SchemaType.array;
+
+        if (parentParentIsArray) {
+          parentParent = parentParent as SchemaArray;
+          var totalChilds = 0;
+          if (parentParent.items is List) {
+            totalChilds = parentParent.items.length;
+          }
+
+          return _appendId('${parentParent.idKey}.$totalChilds', id);
+        }
+
+        return _appendId(parentParent!.idKey, id);
       }
 
-      return parent!.idKey + '.' + id;
+      return _appendId(parent!.idKey, id);
     }
+
     return id;
   }
+
+  String _appendId(String path, String id) =>
+      id != kNoIdKey ? '$path.$id' : path;
 }

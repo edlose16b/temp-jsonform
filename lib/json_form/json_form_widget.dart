@@ -12,6 +12,7 @@ import 'package:jsonschema/json_form/fields/text_form_field.dart';
 import 'package:jsonschema/json_form/models/models.dart';
 
 const String _kNoTitle = 'no-title';
+// Esto pinta
 
 class JsonForm extends StatefulWidget {
   const JsonForm({
@@ -21,7 +22,7 @@ class JsonForm extends StatefulWidget {
   }) : super(key: key);
 
   final Map<String, dynamic> jsonSchema;
-  final void Function(String) onFormDataChanged;
+  final void Function(dynamic) onFormDataChanged;
 
   @override
   _JsonFormState createState() => _JsonFormState();
@@ -33,9 +34,10 @@ class _JsonFormState extends State<JsonForm> {
   final _formKey = GlobalKey<FormState>();
 
   /// final data
-  var data = <String, dynamic>{};
+  dynamic data = {};
 
-  String get formData => json.encode(data);
+  get formData => data;
+  // String get formData => json.encode(data);
 
   _JsonFormState();
 
@@ -44,9 +46,6 @@ class _JsonFormState extends State<JsonForm> {
     schema =
         Schema.fromJson(widget.jsonSchema, id: kGenesisIdKey) as SchemaObject;
 
-    // schema.properties!.forEach((p) {
-    //   data[p.idKey] = '';
-    // });
 
     super.initState();
   }
@@ -119,6 +118,7 @@ class _JsonFormState extends State<JsonForm> {
     return const SizedBox.shrink();
   }
 
+  /// Esto es lo que realmente pinta el campo
   Widget _buildProperty(SchemaProperty property) {
     Widget _field = const SizedBox.shrink();
 
@@ -130,7 +130,7 @@ class _JsonFormState extends State<JsonForm> {
             property: property,
             onSaved: (val) {
               log('onSaved: DateJFormField  ${property.idKey}  : $val');
-              updateObject(property.idKey, val);
+              updateObjectData(data, property.idKey, val);
             },
           );
           break;
@@ -141,7 +141,7 @@ class _JsonFormState extends State<JsonForm> {
             property: property,
             onSaved: (val) {
               log('onSaved: FileJFormField  ${property.idKey}  : $val');
-              updateObject(property.idKey, val);
+              updateObjectData(data, property.idKey, val);
             },
           );
           break;
@@ -151,7 +151,7 @@ class _JsonFormState extends State<JsonForm> {
             property: property,
             onSaved: (val) {
               log('onSaved: TextJFormField ${property.idKey}  : $val');
-              updateObject(property.idKey, val);
+              updateObjectData(data, property.idKey, val);
             });
         break;
       case SchemaType.integer:
@@ -160,7 +160,7 @@ class _JsonFormState extends State<JsonForm> {
           property: property,
           onSaved: (val) {
             log('onSaved: NumberJFormField ${property.idKey}  : $val');
-            updateObject(property.idKey, val);
+            updateObjectData(data, property.idKey, val);
           },
         );
         break;
@@ -169,7 +169,7 @@ class _JsonFormState extends State<JsonForm> {
           property: property,
           onSaved: (val) {
             log('onSaved: CheckboxJFormField ${property.idKey}  : $val');
-            updateObject(property.idKey, val);
+            updateObjectData(data, property.idKey, val);
           },
         );
         break;
@@ -178,7 +178,7 @@ class _JsonFormState extends State<JsonForm> {
           property: property,
           onSaved: (val) {
             log('onSaved: TextJFormField ${property.idKey}  : $val');
-            updateObject(property.idKey, val);
+            updateObjectData(data, property.idKey, val);
           },
         );
     }
@@ -257,8 +257,45 @@ class _JsonFormState extends State<JsonForm> {
 
   //  Form methods
 
-  void updateObject(String path, dynamic value) {
-    print('path: $path');
-    data[path] = value;
+  void updateObjectData(object, String path, dynamic value) {
+    print('updateObjectData $object path $path value $value');
+
+    final stack = path.split('.');
+
+    while (stack.length > 1) {
+      final _key = stack[0];
+      final isNextKeyInteger = int.tryParse(stack[1]) != null;
+      final newContent = isNextKeyInteger ? [] : {};
+      final _keyNumeric = int.tryParse(_key);
+
+      log('$_key - next Key is int? $isNextKeyInteger');
+
+      _addNewContent(object, _keyNumeric, newContent);
+
+      final tempObject = object[_keyNumeric ?? _key];
+      if (tempObject != null) {
+        object = tempObject;
+      } else {
+        object[_key] = newContent;
+        object = object[_key];
+      }
+
+      stack.removeAt(0);
+    }
+
+    final _key = stack[0];
+    final _keyNumeric = int.tryParse(_key);
+    _addNewContent(object, _keyNumeric, value);
+
+    object[_keyNumeric ?? _key] = value;
+    stack.removeAt(0);
+  }
+
+  void _addNewContent(object, int? _keyNumeric, dynamic value) {
+    if (object is List && _keyNumeric != null) {
+      if (object.length - 1 < _keyNumeric) {
+        object.add(value);
+      }
+    }
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jsonschema/json_form/models/models.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
+import 'package:jsonschema/json_form/utils/date_text_input_json_formatter.dart';
 
 class DateJFormField extends StatefulWidget {
   const DateJFormField({
@@ -26,13 +27,13 @@ class _DateJFormFieldState extends State<DateJFormField> {
     return Column(
       children: [
         TextFormField(
-          controller: txtDateCtrl,
           keyboardType: TextInputType.phone,
           validator: (value) {
             if (widget.property.required && (value == null || value.isEmpty)) {
               return 'Required';
             }
           },
+          inputFormatters: [DateTextInputJsonFormatter()],
           decoration: InputDecoration(
             hintText: 'DD-MM-YYYY',
             labelText: widget.property.required

@@ -6,6 +6,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:jsonschema/json_form/fields/checkbox_form_field.dart';
 import 'package:jsonschema/json_form/fields/date_form_field.dart';
+import 'package:jsonschema/json_form/fields/dropdown_form_field.dart';
 import 'package:jsonschema/json_form/fields/file_form_field.dart';
 import 'package:jsonschema/json_form/fields/number_form_field.dart';
 import 'package:jsonschema/json_form/fields/text_form_field.dart';
@@ -45,7 +46,6 @@ class _JsonFormState extends State<JsonForm> {
   void initState() {
     schema =
         Schema.fromJson(widget.jsonSchema, id: kGenesisIdKey) as SchemaObject;
-
 
     super.initState();
   }
@@ -122,65 +122,75 @@ class _JsonFormState extends State<JsonForm> {
   Widget _buildProperty(SchemaProperty property) {
     Widget _field = const SizedBox.shrink();
 
-    switch (property.type) {
-      case SchemaType.string:
-        if (property.format == PropertyFormat.date ||
-            property.format == PropertyFormat.datetime) {
-          _field = DateJFormField(
+    if (property.enumm != null) {
+      _field = DropDownJFormField(
+        property: property,
+        onSaved: (val) {
+          log('onSaved: DateJFormField  ${property.idKey}  : $val');
+          updateObjectData(data, property.idKey, val);
+        },
+      );
+    } else {
+      switch (property.type) {
+        case SchemaType.string:
+          if (property.format == PropertyFormat.date ||
+              property.format == PropertyFormat.datetime) {
+            _field = DateJFormField(
+              property: property,
+              onSaved: (val) {
+                log('onSaved: DateJFormField  ${property.idKey}  : $val');
+                updateObjectData(data, property.idKey, val);
+              },
+            );
+            break;
+          }
+
+          if (property.format == PropertyFormat.dataurl) {
+            _field = FileJFormField(
+              property: property,
+              onSaved: (val) {
+                log('onSaved: FileJFormField  ${property.idKey}  : $val');
+                updateObjectData(data, property.idKey, val);
+              },
+            );
+            break;
+          }
+
+          _field = TextJFormField(
+              property: property,
+              onSaved: (val) {
+                log('onSaved: TextJFormField ${property.idKey}  : $val');
+                updateObjectData(data, property.idKey, val);
+              });
+          break;
+        case SchemaType.integer:
+        case SchemaType.number:
+          _field = NumberJFormField(
             property: property,
             onSaved: (val) {
-              log('onSaved: DateJFormField  ${property.idKey}  : $val');
+              log('onSaved: NumberJFormField ${property.idKey}  : $val');
               updateObjectData(data, property.idKey, val);
             },
           );
           break;
-        }
-
-        if (property.format == PropertyFormat.dataurl) {
-          _field = FileJFormField(
+        case SchemaType.boolean:
+          _field = CheckboxJFormField(
             property: property,
             onSaved: (val) {
-              log('onSaved: FileJFormField  ${property.idKey}  : $val');
+              log('onSaved: CheckboxJFormField ${property.idKey}  : $val');
               updateObjectData(data, property.idKey, val);
             },
           );
           break;
-        }
-
-        _field = TextJFormField(
+        default:
+          _field = TextJFormField(
             property: property,
             onSaved: (val) {
               log('onSaved: TextJFormField ${property.idKey}  : $val');
               updateObjectData(data, property.idKey, val);
-            });
-        break;
-      case SchemaType.integer:
-      case SchemaType.number:
-        _field = NumberJFormField(
-          property: property,
-          onSaved: (val) {
-            log('onSaved: NumberJFormField ${property.idKey}  : $val');
-            updateObjectData(data, property.idKey, val);
-          },
-        );
-        break;
-      case SchemaType.boolean:
-        _field = CheckboxJFormField(
-          property: property,
-          onSaved: (val) {
-            log('onSaved: CheckboxJFormField ${property.idKey}  : $val');
-            updateObjectData(data, property.idKey, val);
-          },
-        );
-        break;
-      default:
-        _field = TextJFormField(
-          property: property,
-          onSaved: (val) {
-            log('onSaved: TextJFormField ${property.idKey}  : $val');
-            updateObjectData(data, property.idKey, val);
-          },
-        );
+            },
+          );
+      }
     }
 
     return Column(

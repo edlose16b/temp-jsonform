@@ -27,6 +27,7 @@ class SchemaProperty extends Schema {
     String? description,
     this.defaultValue,
     this.enumm,
+    this.enumNames,
     this.required = false,
     this.format = PropertyFormat.general,
   }) : super(
@@ -43,15 +44,22 @@ class SchemaProperty extends Schema {
       type: schemaTypeFromString(json['type']),
       format: propertyFormatFromString(json['format']),
       defaultValue: json['default'],
-      enumm: json['enum'],
       description: json['description'],
+      // enums
+      enumm: json['enum'],
+      enumNames: json['enumNames'],
     );
 
     return property;
   }
 
   PropertyFormat format;
-  List<dynamic>? enumm; // it means enum
+
+  /// it means enum
+  List? enumm;
+  /// displayed as text if is not empty
+  List? enumNames;
+  
   dynamic defaultValue;
 
   // propiedades que se llenan con el json

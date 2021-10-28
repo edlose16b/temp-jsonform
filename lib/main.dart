@@ -232,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             JsonForm(
               jsonSchema: json,
-              onFormDataChanged: (data) {
+              onFormDataSaved: (data) {
                 inspect(data);
               },
             )

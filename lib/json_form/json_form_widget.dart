@@ -19,11 +19,11 @@ class JsonForm extends StatefulWidget {
   const JsonForm({
     Key? key,
     required this.jsonSchema,
-    required this.onFormDataChanged,
+    required this.onFormDataSaved,
   }) : super(key: key);
 
   final Map<String, dynamic> jsonSchema;
-  final void Function(dynamic) onFormDataChanged;
+  final void Function(dynamic) onFormDataSaved;
 
   @override
   _JsonFormState createState() => _JsonFormState();
@@ -89,7 +89,7 @@ class _JsonFormState extends State<JsonForm> {
                         print('Data es ->');
                         print(data);
 
-                        widget.onFormDataChanged(formData);
+                        widget.onFormDataSaved(formData);
                       }
                     },
                     child: const Text('Enviar'),

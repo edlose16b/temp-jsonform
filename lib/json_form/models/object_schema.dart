@@ -13,14 +13,6 @@ class SchemaObject extends Schema {
           description: description,
         );
 
-  // ! Getters
-  bool get isGenesis => id == kGenesisIdKey;
-
-  /// array of required keys
-  List<String> required;
-
-  List<Schema>? properties;
-
   factory SchemaObject.fromJson(String id, Map<String, dynamic> json) {
     final schema = SchemaObject(
       id: id,
@@ -32,12 +24,22 @@ class SchemaObject extends Schema {
     );
 
     schema.setProperties(json['properties'], schema);
+    schema.setOneOf(json['oneOf'], schema);
 
     return schema;
   }
+  // ! Getters
+  bool get isGenesis => id == kGenesisIdKey;
+
+  /// array of required keys
+  List<String> required;
+  List<Schema>? properties;
+
+  List<Schema>? oneOf;
 
   void setProperties(
-      Map<String, Map<String, dynamic>> properties, SchemaObject schema) {
+      Map<String, Map<String, dynamic>>? properties, SchemaObject schema) {
+    if (properties == null) return;
     var props = <Schema>[];
 
     properties.forEach((key, _property) {
@@ -56,5 +58,15 @@ class SchemaObject extends Schema {
     });
 
     this.properties = props;
+  }
+
+  void setOneOf(Map<String, Map<String, dynamic>>? oneOf, SchemaObject schema) {
+    if (oneOf == null) return;
+    var oneOfs = <Schema>[];
+    oneOf.forEach((key, _property) {
+      oneOfs.add(Schema.fromJson(_property, id: key, parent: schema));
+    });
+
+    this.oneOf = oneOfs;
   }
 }

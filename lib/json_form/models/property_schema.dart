@@ -44,6 +44,7 @@ class SchemaProperty extends Schema {
       format: propertyFormatFromString(json['format']),
       defaultValue: json['default'],
       enumm: json['enum'],
+      description: json['description'],
     );
 
     return property;

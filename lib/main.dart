@@ -56,82 +56,82 @@ class _MyHomePageState extends State<MyHomePage> {
     "title": "Antecedentes de la persona declarante",
     "type": "object",
     "properties": {
-      "name": {
-        "type": "string",
-        "title": "Razón social",
-        "default": "Tesla"
-        // "format": "password"
-      },
-      "birthday": {
-        "type": "string",
-        "format": "date",
-        "title": "Fecha de constitución",
-        "default": "04/09/1998"
-      },
-      "dni": {"type": "string", "title": "ID", "default": "Tax Tesla"},
-      "company_address": {
-        "type": "object",
-        "title": "Domicilio social",
-        "properties": {
-          "street": {
-            "type": "string",
-            "title": "Dirección",
-            "default": "Av. Tesla"
-          },
-          "city": {
-            "type": "string",
-            "title": "Ciudad",
-            "default": "City Tesla"
-          },
-          "number_house": {
-            "type": "string",
-            "title": "Número de Casa",
-            "default": "AB123"
-          }
-        },
-        "required": ["street", "city", "number_house"]
-      },
-      "people": {
-        "type": "array",
-        "title": "Personas",
-        "minItems": 1,
-        "items": {
-          "type": "object",
-          "properties": {
-            "first_name": {"type": "string", "title": "Nombre"},
-            "last_name": {"type": "string", "title": "Apellido"},
-            "id_number": {
-              "type": "string",
-              "title": "Número de documento de identidad"
-            },
-            "id_documents": {
-              "type": "array",
-              "uniqueItems": true,
-              "minItems": 1,
-              "maxItems": 2,
-              "title": "Documentos de identidad (frente y reverso)",
-              "items": {"type": "string", "format": "data-url"}
-            }
-          },
-          "required": ["first_name", "last_name", "id_number", "id_documents"]
-        }
-      },
-      "website": {
-        "type": "string",
-        "title": "Sitio web",
-        "default": "tesla.com"
-      },
-      "contact_number": {
-        "type": "string",
-        "title": "Número de contacto",
-        "default": "987654321"
-      },
-      "contact_email": {
-        "type": "string",
-        "title": "Email de contacto",
-        "format": "email",
-        "default": "info@tesla.com"
-      },
+      // "name": {
+      //   "type": "string",
+      //   "title": "Razón social",
+      //   "default": "Tesla"
+      //   // "format": "password"
+      // },
+      // "birthday": {
+      //   "type": "string",
+      //   "format": "date",
+      //   "title": "Fecha de constitución",
+      //   "default": "04/09/1998"
+      // },
+      // "dni": {"type": "string", "title": "ID", "default": "Tax Tesla"},
+      // "company_address": {
+      //   "type": "object",
+      //   "title": "Domicilio social",
+      //   "properties": {
+      //     "street": {
+      //       "type": "string",
+      //       "title": "Dirección",
+      //       "default": "Av. Tesla"
+      //     },
+      //     "city": {
+      //       "type": "string",
+      //       "title": "Ciudad",
+      //       "default": "City Tesla"
+      //     },
+      //     "number_house": {
+      //       "type": "string",
+      //       "title": "Número de Casa",
+      //       "default": "AB123"
+      //     }
+      //   },
+      //   "required": ["street", "city", "number_house"]
+      // },
+      // "people": {
+      //   "type": "array",
+      //   "title": "Personas",
+      //   "minItems": 1,
+      //   "items": {
+      //     "type": "object",
+      //     "properties": {
+      //       "first_name": {"type": "string", "title": "Nombre"},
+      //       "last_name": {"type": "string", "title": "Apellido"},
+      //       "id_number": {
+      //         "type": "string",
+      //         "title": "Número de documento de identidad"
+      //       },
+      //       "id_documents": {
+      //         "type": "array",
+      //         "uniqueItems": true,
+      //         "minItems": 1,
+      //         "maxItems": 2,
+      //         "title": "Documentos de identidad (frente y reverso)",
+      //         "items": {"type": "string", "format": "data-url"}
+      //       }
+      //     },
+      //     "required": ["first_name", "last_name", "id_number", "id_documents"]
+      //   }
+      // },
+      // "website": {
+      //   "type": "string",
+      //   "title": "Sitio web",
+      //   "default": "tesla.com"
+      // },
+      // "contact_number": {
+      //   "type": "string",
+      //   "title": "Número de contacto",
+      //   "default": "987654321"
+      // },
+      // "contact_email": {
+      //   "type": "string",
+      //   "title": "Email de contacto",
+      //   "format": "email",
+      //   "default": "info@tesla.com"
+      // },
       "society_type": {
         "type": "string",
         "title": "Tipo de sociedad",

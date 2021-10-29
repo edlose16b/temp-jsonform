@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jsonschema/json_form/models/models.dart';
+import 'package:jsonschema/json_form/utils/default_text_input_json_formatter.dart';
+import 'package:jsonschema/json_form/utils/email_text_input_json_formatter.dart';
 
 class TextJFormField extends StatefulWidget {
   const TextJFormField(
@@ -22,6 +25,7 @@ class _TextJFormFieldState extends State<TextJFormField> {
       obscureText: widget.property.format == PropertyFormat.password,
       initialValue: widget.property.defaultValue ?? '',
       onSaved: widget.onSaved,
+      inputFormatters: [textInputCustomFormatter(widget.property.format)],
       autovalidateMode: AutovalidateMode.onUserInteraction,
       // onEditingComplete: () {
       //   // if (widget.property.emptyValue != null && value.isEmpty) {
@@ -29,10 +33,10 @@ class _TextJFormFieldState extends State<TextJFormField> {
       //   // }
       // },
       validator: (String? value) {
-        print('Validando??');
         if (widget.property.required && value != null && value.isEmpty) {
           return 'Required';
         }
+
         if (widget.property.minLength != null &&
             value != null &&
             value.isNotEmpty &&
@@ -48,6 +52,19 @@ class _TextJFormFieldState extends State<TextJFormField> {
         helperText: widget.property.help,
       ),
     );
+  }
+
+  TextInputFormatter textInputCustomFormatter(PropertyFormat format) {
+    late TextInputFormatter textInputFormatter;
+    switch (format) {
+      case PropertyFormat.email:
+        textInputFormatter = EmailTextInputJsonFormatter();
+        break;
+      default:
+        textInputFormatter = DefaultTextInputJsonFormatter();
+        break;
+    }
+    return textInputFormatter;
   }
 
   TextInputType getTextInputTypeFromFormat(PropertyFormat format) {

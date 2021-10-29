@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jsonschema/json_form/models/models.dart';
-import 'package:jsonschema/utils/default_text_input_json_formatter.dart';
-import 'package:jsonschema/utils/email_text_input_json_formatter.dart';
+import 'package:jsonschema/json_form/utils/default_text_input_json_formatter.dart';
+import 'package:jsonschema/json_form/utils/email_text_input_json_formatter.dart';
 
 class TextJFormField extends StatefulWidget {
   const TextJFormField(

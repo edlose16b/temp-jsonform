@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:jsonschema/json_form/fields/dropdown_form_field.dart';
 import 'package:jsonschema/json_form/json_form.dart';
+import 'package:jsonschema/json_form/models/property_schema.dart';
 
 void main() {
   runApp(const MyApp());
@@ -61,6 +63,13 @@ class _MyHomePageState extends State<MyHomePage> {
         "title": "Razón social",
         "default": "Tesla"
         // "format": "password"
+      },
+      "cola": {
+        "type": "string",
+        "title": "Gaseosa preferida",
+        // "default": "coca",
+        "enum": ["coca", "pepsi", "7up"],
+        "enumNames": ['Coca Cola', 'Pepsi', "7 Up"]
       },
       "birthday": {
         "type": "string",
@@ -169,7 +178,8 @@ class _MyHomePageState extends State<MyHomePage> {
       "company_address",
       "website",
       "contact_number",
-      "contact_email"
+      "contact_email",
+      "cola"
     ],
     "dependencies": {
       "society_type": {
@@ -222,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             JsonForm(
               jsonSchema: json,
-              onFormDataChanged: (data) {
+              onFormDataSaved: (data) {
                 inspect(data);
               },
             )
